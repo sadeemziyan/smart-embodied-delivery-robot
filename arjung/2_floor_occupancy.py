@@ -54,7 +54,7 @@ def build_Env(show_viewer=False):
             morph=gs.morphs.Box(
                 size=size,
                 pos=pos,
-                euler=(0, 0, 0),
+                # euler=(0, 0, 0),
                 fixed=True,
             ),
             surface=gs.surfaces.Default(color=color),
@@ -68,29 +68,29 @@ def build_Env(show_viewer=False):
 
     # Floor 0 (ground level)
     add_box(scene,
-            pos=(cx, 0, cy),
-            size=(slab_w, FLOOR_T, slab_d),
+            pos=(cx, cy, 0),
+            size=(slab_w, slab_d, FLOOR_T),
             color=(0.85, 0.75, 0.60, 1.0))  # warm concrete
 
     # Floor 1 (2nd Floor)
     floor1_z = FLOOR_GAP
     add_box(scene,
-            pos=(cx, floor1_z, cy),
-            size=(slab_w, FLOOR_T, slab_d),
+            pos=(cx, cy, floor1_z),
+            size=(slab_w, slab_d, FLOOR_T),
             color=(0.75, 0.85, 0.90, 1.0)) #teal
 
     # ── Generate walls from occupation grid ──────────────
-    def build_walls(scene, maze, floor_y, wall_color):
+    def build_walls(scene, maze, floor_z, wall_color):
         """Iterate over the occupation grid and place wall boxes."""
         for r in range(ROWS):
             for c in range(COLS):
                 if maze[r, c] == 1:
                     wx = (c + 0.5) * CELL_SIZE #ensure observation uses same mapping
-                    wz = (r + 0.5) * CELL_SIZE
-                    wy = floor_y + WALL_H / 2
+                    wy = (r + 0.5) * CELL_SIZE
+                    wz = floor_z + WALL_H / 2
                     add_box(scene,
                             pos=(wx, wy, wz),
-                            size=(CELL_SIZE, WALL_H, CELL_SIZE),
+                            size=(CELL_SIZE, CELL_SIZE, FLOOR_T),
                             color=wall_color)
 
     build_walls(scene, MAZE_FLOOR_0, 0.0,
