@@ -1,4 +1,8 @@
-# Smart Embodied Delivery Robot
+# smart-embodied-delivery-robot
+
+Smart Embodied Delivery Robot - Genesis Simulation
+
+## Project Overview
 
 This repo contains a grid-based delivery robot navigation stack plus a vendored Genesis checkout for Go2 locomotion experiments and visualization.
 

@@ -9,7 +9,20 @@ __pycache__/
 *.pyo
 *.pyd
 *.so
+*$py.class
 .pytest_cache/
+.hypothesis/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+htmlcov/
+coverage.xml
+nosetests.xml
+*.cover
+*.py.cover
+cover/
 
 # Generated logs and outputs
 *.log
@@ -18,12 +31,12 @@ go2_train_stdout.log
 go2_train_stderr.log
 logs/
 Genesis/logs/
+pip-log.txt
+pip-delete-this-directory.txt
 
-# Generated images
+# Generated images / experiments
 map_debug.png
 planner_debug.png
-
-# TensorBoard / checkpoints / local experiment files
 *.tfevents.*
 
 # Embedded-repo backup
@@ -35,6 +48,81 @@ information.md
 information.txt
 newinformation.txt
 
-# OS / editor noise
+# Packaging / build
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+*.manifest
+*.spec
+
+# Virtual environments
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Notebook / interpreter / type checker
+.ipynb_checkpoints
+profile_default/
+ipython_config.py
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+cython_debug/
+__pypackages__/
+.pdm-python
+.pdm-build/
+.pixi
+
+# Framework / app noise
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+instance/
+.webassets-cache
+.scrapy
+docs/_build/
+.pybuilder/
+target/
+*.mo
+*.pot
+celerybeat-schedule
+celerybeat.pid
+*.sage.py
+
+# Editor / IDE / misc
+.abstra/
+.ruff_cache/
+.pypirc
+.cursorignore
+.cursorindexingignore
+.spyderproject
+.spyproject
+.ropeproject
+/site
+marimo/_static/
+marimo/_lsp/
+__marimo__/
 .DS_Store
 Thumbs.db
