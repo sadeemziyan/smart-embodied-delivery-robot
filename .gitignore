@@ -1,0 +1,40 @@
+# Local tool state
+.claude/
+.qodo/
+.local_backup/
+
+# Python cache / virtual artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.pytest_cache/
+
+# Generated logs and outputs
+*.log
+run_output.log
+go2_train_stdout.log
+go2_train_stderr.log
+logs/
+Genesis/logs/
+
+# Generated images
+map_debug.png
+planner_debug.png
+
+# TensorBoard / checkpoints / local experiment files
+*.tfevents.*
+
+# Embedded-repo backup
+Genesis/.git_hidden_backup/
+
+# Local notes / duplicate workspace copy
+delivery_robot/
+information.md
+information.txt
+newinformation.txt
+
+# OS / editor noise
+.DS_Store
+Thumbs.db

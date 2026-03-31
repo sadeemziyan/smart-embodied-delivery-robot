@@ -1,0 +1,8 @@
+numpy
+scipy
+matplotlib
+pyyaml
+torch
+genesis-world
+robot_descriptions
+rsl-rl-lib==2.2.4
