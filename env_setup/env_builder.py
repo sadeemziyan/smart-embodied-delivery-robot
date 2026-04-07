@@ -1,7 +1,7 @@
 import genesis as gs
 from mazes import CELL_SIZE, WALL_H, FLOOR_T, FLOOR_GAP, MAZE_FLOOR_0, MAZE_FLOOR_1
 
-def build_Env(maze_floor_0, maze_floor_1=None, show_viewer=False):
+def build_Env(maze_floor_0, maze_floor_1=None, show_viewer=False, robot_start=None):
     ROWS, COLS = maze_floor_0.shape
 
     scene = gs.Scene(show_viewer=show_viewer)
@@ -52,5 +52,14 @@ def build_Env(maze_floor_0, maze_floor_1=None, show_viewer=False):
     if maze_floor_1 is not None:
         build_walls(maze_floor_1, floor1_z, wall_color=(0.25, 0.40, 0.55, 1.0))
 
+    robot = None
+    if robot_start is not None:
+        robot = add_box(
+            pos=robot_start,
+            size=(0.1, 0.1, 0.1),
+            color=(0.10, 0.80, 0.10, 1.0),
+            fixed=False,
+        )
+ 
     scene.build()
-    return scene
+    return scene, robot
