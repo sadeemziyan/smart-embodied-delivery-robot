@@ -1,12 +1,15 @@
 import genesis as gs
 import numpy as np
 import random
-from mazes import CELL_SIZE, WALL_H, FLOOR_T, FLOOR_GAP
 
-def build_Env(maze_floor_0, maze_floor_1=None, show_viewer=False):
+def build_Env(env_config, maze_floor_0, maze_floor_1=None, other_configs=None):
+    CELL_SIZE  = env_config.cell_size
+    WALL_H     = env_config.wall_height
+    FLOOR_T    = env_config.floor_thickness
+    FLOOR_GAP  = WALL_H * 4
     ROWS, COLS = maze_floor_0.shape
 
-    scene = gs.Scene(show_viewer=show_viewer)
+    scene = gs.Scene(show_viewer=env_config.show_viewer)
 
     def add_box(pos, size, color=(0.6, 0.6, 0.6, 1.0), fixed=True):
         entity = scene.add_entity(
@@ -25,7 +28,7 @@ def build_Env(maze_floor_0, maze_floor_1=None, show_viewer=False):
             color=(0.85, 0.75, 0.60, 1.0))
 
     floor1_z = FLOOR_GAP
-    if maze_floor_1 is not None:
+    if maze_floor_1 is not None and env_config.num_floors == 2:
         add_box(pos=(cx, cy, floor1_z),
                 size=(slab_w, slab_d, FLOOR_T),
                 color=(0.75, 0.85, 0.90, 1.0))
@@ -52,10 +55,10 @@ def build_Env(maze_floor_0, maze_floor_1=None, show_viewer=False):
                     c += 1
 
     build_walls(maze_floor_0, 0.0, wall_color=(0.30, 0.30, 0.35, 1.0))
-    if maze_floor_1 is not None:
+    if maze_floor_1 is not None and env_config.num_floors == 2:
         build_walls(maze_floor_1, floor1_z, wall_color=(0.25, 0.40, 0.55, 1.0))
 
-    # random spawn
+    # random spawn on floor 0
     free_cells = [
         (r, c)
         for r in range(ROWS)
