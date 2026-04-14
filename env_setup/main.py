@@ -7,17 +7,15 @@ from robot_control import RobotController
 def main():
     gs.init(backend=gs.cpu)
 
-    start_xy = PATH_FLOOR_1[0] #first waypoint
-    robot_z  = FLOOR_GAP + 0.051  #spawn above floor
+    robot_z = FLOOR_GAP + 0.051
 
-    scene, robot_entity = build_Env(
+    scene, robot_entity, spawn_pos, spawn_heading = build_Env(
         MAZE_FLOOR_0,
         MAZE_FLOOR_1,
         show_viewer=True,
-        robot_start=(start_xy[0], start_xy[1], robot_z),
     )
 
-    controller = RobotController(robot_entity, PATH_FLOOR_1, robot_z)
+    controller = RobotController(robot_entity, PATH_FLOOR_1, robot_z, spawn_pos, spawn_heading)
 
     while not controller.done:
         controller.update()

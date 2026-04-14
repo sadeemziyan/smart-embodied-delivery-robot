@@ -1,14 +1,16 @@
 import genesis as gs
-from mazes import CELL_SIZE, WALL_H, FLOOR_T, FLOOR_GAP, MAZE_FLOOR_0, MAZE_FLOOR_1
+import numpy as np
+import random
+from mazes import CELL_SIZE, WALL_H, FLOOR_T, FLOOR_GAP
 
-def build_Env(maze_floor_0, maze_floor_1=None, show_viewer=False, robot_start=None):
+def build_Env(maze_floor_0, maze_floor_1=None, show_viewer=False):
     ROWS, COLS = maze_floor_0.shape
 
     scene = gs.Scene(show_viewer=show_viewer)
 
-    def add_box(pos, size, color=(0.6, 0.6, 0.6, 1.0), fixed = True):
+    def add_box(pos, size, color=(0.6, 0.6, 0.6, 1.0), fixed=True):
         entity = scene.add_entity(
-            morph=gs.morphs.Box(size=size, pos=pos, fixed=True),
+            morph=gs.morphs.Box(size=size, pos=pos, fixed=fixed),
             surface=gs.surfaces.Default(color=color),
         )
         return entity
@@ -53,14 +55,25 @@ def build_Env(maze_floor_0, maze_floor_1=None, show_viewer=False, robot_start=No
     if maze_floor_1 is not None:
         build_walls(maze_floor_1, floor1_z, wall_color=(0.25, 0.40, 0.55, 1.0))
 
-    robot = None
-    if robot_start is not None:
-        robot = add_box(
-            pos=robot_start,
-            size=(0.1, 0.1, 0.1),
-            color=(0.10, 0.80, 0.10, 1.0),
-            fixed=False,
-        )
- 
+    # random spawn
+    free_cells = [
+        (r, c)
+        for r in range(ROWS)
+        for c in range(COLS)
+        if maze_floor_0[r, c] == 0
+    ]
+    r, c = random.choice(free_cells)
+    spawn_x = (c + 0.5) * CELL_SIZE
+    spawn_y = (r + 0.5) * CELL_SIZE
+    spawn_z = FLOOR_GAP + 0.051
+    spawn_heading = np.random.uniform(0, 2 * np.pi)
+
+    robot = add_box(
+        pos=(spawn_x, spawn_y, spawn_z),
+        size=(0.1, 0.1, 0.1),
+        color=(0.10, 0.80, 0.10, 1.0),
+        fixed=False,
+    )
+
     scene.build()
-    return scene, robot
+    return scene, robot, (spawn_x, spawn_y), spawn_heading

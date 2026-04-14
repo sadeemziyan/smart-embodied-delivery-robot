@@ -30,3 +30,5 @@ MAZE_FLOOR_1 = np.array([
     [1,1,1,0,1,1,0,0,0,1],
     [1,1,1,1,1,1,1,1,1,1],
 ], dtype=int)
+
+MAZE_FLOORS = np.array([MAZE_FLOOR_0, MAZE_FLOOR_1])
