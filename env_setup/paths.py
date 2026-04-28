@@ -1,8 +1,12 @@
-#temporary preset path for testing pure pursuit
+from mazes import MAZE_FLOOR_0, MAZE_FLOOR_1
+from astar import find_path
 
-PATH_FLOOR_1 = [
-    (0.75, 0.75), (0.75, 1.25), (0.75, 1.75), (1.25, 1.75),
-    (1.75, 1.75), (1.75, 2.25), (1.75, 2.75), (2.25, 2.75),
-    (2.75, 2.75), (3.25, 2.75), (3.75, 2.75), (4.25, 2.75),
-    (4.25, 3.25), (4.25, 3.75), (4.25, 4.25),
-]
+FLOOR_1_SRC  = (1, 1)   # top-left open cell
+FLOOR_1_DEST = (8, 8)   # bottom-right open cell
+
+PATH_FLOOR_1 = find_path(MAZE_FLOOR_1, FLOOR_1_SRC, FLOOR_1_DEST)
+
+FLOOR_0_SRC  = (1, 1)
+FLOOR_0_DEST = (8, 8)
+
+PATH_FLOOR_0 = find_path(MAZE_FLOOR_0, FLOOR_0_SRC, FLOOR_0_DEST)
