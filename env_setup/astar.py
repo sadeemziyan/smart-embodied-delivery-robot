@@ -81,7 +81,7 @@ def _a_star(maze, src: tuple, dest: tuple):
         for di, dj in DIRS:
             ni, nj = i + di, j + dj
 
-            if not _is_valid(ni, nj, rows, cols):
+            if not is_valid(ni, nj, rows, cols):
                 continue
             if not _is_open(maze, ni, nj):
                 continue
