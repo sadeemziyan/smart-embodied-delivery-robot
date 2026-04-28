@@ -30,3 +30,7 @@ MAZE_FLOOR_1 = np.array([
     [1,1,1,0,1,1,0,0,0,1],
     [1,1,1,1,1,1,1,1,1,1],
 ], dtype=int)
+
+#invert occ grid for usage in astar
+MAZE_FLOOR_0_occ = 1 - MAZE_FLOOR_0
+MAZE_FLOOR_1_occ = 1 - MAZE_FLOOR_1

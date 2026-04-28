@@ -3,7 +3,6 @@ import numpy as np
 from mazes import CELL_SIZE
 
 class _Cell:
-
     def __init__(self):
         self.parent_i = 0  # Parent cell's row index
         self.parent_j = 0  # Parent cell's column index
@@ -16,8 +15,8 @@ def is_valid(grid, row, col):
     cols = len(grid[0])
     return 0 <= row < rows and 0 <= col < cols
 
-def _is_open(maze, row, col):
-    return maze[row, col] == 1
+def is_unblocked(grid, row, col):
+    return grid[row][col] == 1
 
 def is_destination(row, col, dest):
     return row == dest[0] and col == dest[1]
@@ -25,8 +24,8 @@ def is_destination(row, col, dest):
 def _heuristic(row, col, dest: tuple):
     return abs(row - dest[0]) + abs(col - dest[1])
 
-#returns reversed path from destination to source
-def _trace_path(cell_details, dest: tuple):
+#returns path from destination to source reversed
+def _trace_path(cell_details, dest):
     path = []
     r, c = dest
     while not (cell_details[r][c].parent_i == r and cell_details[r][c].parent_j == c):
@@ -50,7 +49,7 @@ def _a_star(maze, src: tuple, dest: tuple):
     if not (is_valid(*src, rows, cols) and is_valid(*dest, rows, cols)):
         print("Source or destination is invalid")
         return []
-    if not (_is_open(maze, *src) and _is_open(maze, *dest)):
+    if not (is_unblocked(maze, *src) and is_unblocked(maze, *dest)):
         print("Source or the destination is blocked")
         return []
     if src == dest:
@@ -72,7 +71,7 @@ def _a_star(maze, src: tuple, dest: tuple):
     DIRS = [(0, 1), (0, -1), (1, 0), (-1, 0)]
 
     while open_heap:
-        _, i, j = heapq.heappop(open_heap)
+        i, j = heapq.heappop(open_heap)
 
         if closed[i][j]:
             continue
@@ -83,7 +82,7 @@ def _a_star(maze, src: tuple, dest: tuple):
 
             if not is_valid(ni, nj, rows, cols):
                 continue
-            if not _is_open(maze, ni, nj):
+            if not is_unblocked(maze, ni, nj):
                 continue
             if closed[ni][nj]:
                 continue
@@ -106,6 +105,24 @@ def _a_star(maze, src: tuple, dest: tuple):
                 heapq.heappush(open_heap, (f_new, ni, nj))
 
     return []
+
+def occupancy_conversion_astar_grid(data, width, height, threshold=50):
+    maze = []
+
+    for row in range(height):
+        current_row = []
+        for col in range(width):
+            idx = row * width + col
+            val = data[idx]
+
+            if val == -1 or val >= threshold:
+                current_row.append(0)  # blocked
+            else:
+                current_row.append(1)  # free
+
+        maze.append(current_row)
+
+    return maze
 
 def find_path(maze: np.ndarray, src_cell: tuple, dest_cell: tuple):
     cell_path = _a_star(maze, src_cell, dest_cell)
