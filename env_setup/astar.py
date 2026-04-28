@@ -3,25 +3,26 @@ import numpy as np
 from mazes import CELL_SIZE
 
 class _Cell:
-    __slots__ = ("parent_i", "parent_j", "f", "g", "h")
 
     def __init__(self):
-        self.parent_i = -1
-        self.parent_j = -1
-        self.f = float("inf")
-        self.g = float("inf")
-        self.h = 0.0
+        self.parent_i = 0  # Parent cell's row index
+        self.parent_j = 0  # Parent cell's column index
+        self.f = float('inf')  # Total cost of the cell (g + h)
+        self.g = float('inf')  # Cost from start to this cell
+        self.h = 0  # Heuristic cost from this cell to destination
 
-
-def _is_valid(row: int, col: int, rows: int, cols: int):
+def is_valid(grid, row, col):
+    rows = len(grid)
+    cols = len(grid[0])
     return 0 <= row < rows and 0 <= col < cols
 
+def _is_open(maze, row, col):
+    return maze[row, col] == 1
 
-def _is_open(maze, row: int, col: int):
-    return maze[row, col] == 0
+def is_destination(row, col, dest):
+    return row == dest[0] and col == dest[1]
 
-
-def _heuristic(row: int, col: int, dest: tuple):
+def _heuristic(row, col, dest: tuple):
     return abs(row - dest[0]) + abs(col - dest[1])
 
 #returns reversed path from destination to source
@@ -46,11 +47,14 @@ def _cells_to_world(cell_path: list):
 def _a_star(maze, src: tuple, dest: tuple):
     rows, cols = maze.shape
 
-    if not (_is_valid(*src, rows, cols) and _is_valid(*dest, rows, cols)):
+    if not (is_valid(*src, rows, cols) and is_valid(*dest, rows, cols)):
+        print("Source or destination is invalid")
         return []
     if not (_is_open(maze, *src) and _is_open(maze, *dest)):
+        print("Source or the destination is blocked")
         return []
     if src == dest:
+        print("We are already at the destination")
         return [src]
 
     closed = [[False] * cols for _ in range(rows)]
